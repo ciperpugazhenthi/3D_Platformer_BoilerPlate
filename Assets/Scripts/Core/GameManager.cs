@@ -15,7 +15,7 @@ public class GameManager : Singleton<GameManager>
         switch (newState)
         {
             case GameState.Start:
-                Time.timeScale = 0;
+                Time.timeScale = 1;
                 UIManager.Instance.ShowStartScreen();
                 break;
             case GameState.Playing:
