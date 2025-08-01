@@ -123,10 +123,18 @@ public class PlayerController : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -9.81f;
     public Transform cameraTransform;
-    [SerializeField]
+    public Vector3 oldInput = Vector3.zero;
+
+    public float fireRate = 0.1f;
+    public float shootRange = 10000f;
+
+    public bool showDebugRay = true;
+    public float debugRayDuration = 0.5f;
+
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
+    private float nextFireTime = 0f;
 
     void Start()
     {
@@ -135,19 +143,53 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        isGrounded = controller.isGrounded;
-        if (isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        HandleMovement();
+        HandleShooting();
+    }
 
-        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
-        Vector3 move = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0) * input;
-        controller.Move(move.normalized * moveSpeed * Time.deltaTime);
-        Debug.Log($"i/p {input} Move {move.normalized * moveSpeed * Time.deltaTime}");
+    void HandleMovement()
+    {
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+    }
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+    void HandleShooting()
+    {
+        if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
+        {
+            Shoot();
+            nextFireTime = Time.time + fireRate;
+        }
+    }
+
+    void Shoot()
+    {
+        Vector3 mouseScreenPosition = Input.mousePosition;
+        mouseScreenPosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+        Vector3 rayDirection = (mousePosition - transform.position).normalized;
+
+        RaycastHit hit;
+        bool didHit = Physics.Raycast(transform.position, rayDirection, out hit, 300, -1);
+        if (didHit)
+        {
+            Debug.DrawLine(transform.position, hit.point, Color.red, debugRayDuration);
+        }
+        else
+        {
+            Debug.DrawLine(transform.position, transform.position + rayDirection * 300, Color.red, debugRayDuration);
+        }
+        OnShoot(); // Recoil, screen shake
+    }
+
+    void OnHitTarget(RaycastHit2D hit)
+    {
+        Debug.Log($"Hit: {hit.collider.name} at {hit.point}");
+
+
+    }
+
+    void OnShoot()
+    {
+        Debug.Log("Shot fired!");
     }
 }*/
