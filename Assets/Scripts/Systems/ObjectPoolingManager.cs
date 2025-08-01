@@ -30,6 +30,12 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             poolDictionary.Add(pool.tag, objectPool);
         }
     }
+    public Queue<GameObject> GetPoolQueue(string tag)
+    {
+        if (poolDictionary.ContainsKey(tag))
+            return poolDictionary[tag];
+        return new Queue<GameObject>();
+    }
 
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {

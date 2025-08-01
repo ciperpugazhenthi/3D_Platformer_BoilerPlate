@@ -20,16 +20,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
     [SerializeField] private float dashFuelCost = 10f;
+    [SerializeField]  private bool canDash = true;
+    [SerializeField]  private bool isDashing = false;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.3f;
+    [SerializeField]  private bool isGrounded;
 
     private Rigidbody rb;
-    private bool isGrounded;
-    private bool canDash = true;
-    private bool isDashing = false;
+
 
     void Start()
     {
@@ -45,9 +46,9 @@ public class PlayerController : MonoBehaviour
 
         float hInput = Input.GetAxis("Horizontal");
         float vInput = Input.GetAxis("Vertical");
-        float downThrust = Mathf.Min(vInput, 0f); // Only downward when pressing S or stick down
+        //float downThrust = Mathf.Min(vInput, 0f); // Only downward when pressing S or stick down
 
-        Vector3 thrustDirection = new Vector3(hInput, downThrust, 0f);
+        Vector3 thrustDirection = new Vector3(hInput, vInput, 0f);
         bool isThrusting = thrustDirection.magnitude > 0.01f;
 
         // Dash input with fuel check
@@ -84,6 +85,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public void RefillFuel(float amount)
+    {
+        currentFuel += amount;
+        currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+    }
+
 
     private IEnumerator Dash()
     {
