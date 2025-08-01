@@ -70,11 +70,23 @@ public class FuelCanisterSpawner : MonoBehaviour
         float u = Random.Range(0f, 2f * Mathf.PI);
         float v = Random.Range(0f, 2f * Mathf.PI);
 
-        float x = (R + r * Mathf.Cos(v)) * Mathf.Cos(u);
-        float y = r * Mathf.Sin(v);
-        //float z = (R + r * Mathf.Cos(v)) * Mathf.Sin(u);
-        Debug.Log($"center {center}");
-        return center + new Vector3(x, y, 0f);
+        /*        float x = (R + r * Mathf.Cos(v)) * Mathf.Cos(u);
+                float y = r * Mathf.Sin(v);
+                //float z = (R + r * Mathf.Cos(v)) * Mathf.Sin(u);
+                Debug.Log($"center {center}");
+                return center + new Vector3(x, y, 0f);*/
+        // Calculate circular position around YZ plane (vertical torus)
+        float y = Mathf.Cos(u) * majorRadius;
+        float x = Mathf.Sin(u) * majorRadius;
+
+        // Add inner circle offset
+        float offsetZ = Mathf.Cos(v) * minorRadius;
+        float offsetR = Mathf.Sin(v) * minorRadius;
+
+        // Final position in space
+        Vector3 spawnPoint = center + new Vector3(x + offsetR * Mathf.Sin(u), y + offsetR * Mathf.Cos(u), 0f/*offsetZ*/);
+
+        return spawnPoint;
     }
 
     void OnDrawGizmosSelected()
