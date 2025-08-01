@@ -20,3 +20,7 @@ Assets/AssetStoreTools*
 sysinfo.txt
 *.pidb
 *.booproj
+UserSettings/
+.vsconfig
+Logs/
+.vs/
