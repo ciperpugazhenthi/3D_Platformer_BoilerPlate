@@ -17,8 +17,18 @@ public class Shooter : MonoBehaviour
     }
     void HandleShooting()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && Time.time >= nextShootTime)
+        {
             Shoot();
+            nextShootTime = Time.time + shootCooldown;
+
+            HUDGameEvents.GunCooldownChanged(0f);
+        }
+        else if (Time.time < nextShootTime)
+        {
+            float cooldownProgress = 1f - ((nextShootTime - Time.time) / shootCooldown);
+            HUDGameEvents.GunCooldownChanged(cooldownProgress);
+        }
     }
     void Shoot()
     {
