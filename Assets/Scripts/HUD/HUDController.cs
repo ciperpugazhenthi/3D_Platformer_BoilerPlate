@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class HudControllerScript : MonoBehaviour
 {
     public Slider fuelSlider;
     public Slider healthSlider;
@@ -19,6 +19,15 @@ public class NewBehaviourScript : MonoBehaviour
     private void OnEnable()
     {
         HUDGameEvents.OnFuelChanged += UpdateFuel;
+        HUDGameEvents.OnGunCooldownChanged += UpdateGunCooldown;
+        HUDGameEvents.OnPlayerHealthChanged += UpdateHealth;
+        HUDGameEvents.OnDashCooldownChanged += UpdateDash;
+        HUDGameEvents.OnShuttleIntegrityChanged += UpdateShuttleIntegrity;
+
+        HUDGameEvents.OnFuelWarning += ShowFuelWarning;
+        HUDGameEvents.OnHealthWarning += ShowHealthWarning;
+        HUDGameEvents.OnSanityWarning += ShowSanityWarning;
+        HUDGameEvents.OnShuttleWarning += ShowShuttleIntegrityWarning;
     }
 
     void UpdateFuel(float value)
