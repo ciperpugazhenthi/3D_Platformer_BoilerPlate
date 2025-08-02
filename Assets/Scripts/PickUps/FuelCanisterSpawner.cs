@@ -99,7 +99,7 @@ public class FuelCanisterSpawner : MonoBehaviour
         for (int i = 0; i < samples; i++)
         {
             Vector3 p = GetRandomPointInsideTorus(centerReference.position, majorRadius, minorRadius);
-            Gizmos.DrawSphere(p, 0.2f);
+            Gizmos.DrawSphere(p, 1f);
         }
 
         if (player != null)
