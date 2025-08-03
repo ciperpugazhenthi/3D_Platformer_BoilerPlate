@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class FuelCanisterSpawner : MonoBehaviour
+public class OxygenCanisterSpawner : MonoBehaviour
 {
     [Header("Torus Spawn Area")]
     public Transform centerReference;
@@ -9,7 +9,7 @@ public class FuelCanisterSpawner : MonoBehaviour
     public float minorRadius = 3f;
 
     [Header("Spawning Logic")]
-    public string fuelCanisterTag = "FuelCanister";
+    public string OxigenCanisterTag = "Fuel";
     public float spawnInterval = 5f;
     public int maxActiveCanisters = 5;
     public float playerBiasRadius = 8f;
@@ -35,13 +35,13 @@ public class FuelCanisterSpawner : MonoBehaviour
         if (activeCount >= maxActiveCanisters) return;
 
         Vector3 spawnPos = GetBiasedSpawnPosition();
-        GameObject obj = ObjectPoolManager.Instance.SpawnFromPool(fuelCanisterTag, spawnPos, Quaternion.identity);
+        GameObject obj = ObjectPoolManager.Instance.SpawnFromPool(OxigenCanisterTag, spawnPos, Quaternion.identity);
         if (obj != null) obj.SetActive(true);
     }
 
     int CountActiveCanisters()
     {
-        Queue<GameObject> poolQueue = ObjectPoolManager.Instance.GetPoolQueue(fuelCanisterTag);
+        Queue<GameObject> poolQueue = ObjectPoolManager.Instance.GetPoolQueue(OxigenCanisterTag);
         int count = 0;
         foreach (var obj in poolQueue)
         {
@@ -70,11 +70,23 @@ public class FuelCanisterSpawner : MonoBehaviour
         float u = Random.Range(0f, 2f * Mathf.PI);
         float v = Random.Range(0f, 2f * Mathf.PI);
 
-        float x = (R + r * Mathf.Cos(v)) * Mathf.Cos(u);
-        float y = r * Mathf.Sin(v);
-        //float z = (R + r * Mathf.Cos(v)) * Mathf.Sin(u);
-        Debug.Log($"center {center}");
-        return center + new Vector3(x, y, 0f);
+        /*        float x = (R + r * Mathf.Cos(v)) * Mathf.Cos(u);
+                float y = r * Mathf.Sin(v);
+                //float z = (R + r * Mathf.Cos(v)) * Mathf.Sin(u);
+                Debug.Log($"center {center}");
+                return center + new Vector3(x, y, 0f);*/
+        // Calculate circular position around YZ plane (vertical torus)
+        float y = Mathf.Cos(u) * majorRadius;
+        float x = Mathf.Sin(u) * majorRadius;
+
+        // Add inner circle offset
+        float offsetZ = Mathf.Cos(v) * minorRadius;
+        float offsetR = Mathf.Sin(v) * minorRadius;
+
+        // Final position in space
+        Vector3 spawnPoint = center + new Vector3(x + offsetR * Mathf.Sin(u), y + offsetR * Mathf.Cos(u), 0f/*offsetZ*/);
+
+        return spawnPoint;
     }
 
     void OnDrawGizmosSelected()
@@ -87,7 +99,7 @@ public class FuelCanisterSpawner : MonoBehaviour
         for (int i = 0; i < samples; i++)
         {
             Vector3 p = GetRandomPointInsideTorus(centerReference.position, majorRadius, minorRadius);
-            Gizmos.DrawSphere(p, 0.2f);
+            Gizmos.DrawSphere(p, 1f);
         }
 
         if (player != null)

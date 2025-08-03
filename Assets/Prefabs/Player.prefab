@@ -281,7 +281,7 @@ MonoBehaviour:
   groundCheck: {fileID: 6460028106931953059}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   groundCheckRadius: 0.5
   isGrounded: 0
 --- !u!1 &4003955803627750560
