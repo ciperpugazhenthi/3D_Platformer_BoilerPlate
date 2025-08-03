@@ -27,11 +27,11 @@ public class EnemyPlayerDamager : EnemyBase
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance < 1.0f)
         {
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.ApplyDamage(damageRate * Time.deltaTime);
-            }
+            //PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            //if (playerHealth != null)
+            //{
+            //    playerHealth.ApplyDamage(damageRate * Time.deltaTime);
+            //}
         }
     }
 }
