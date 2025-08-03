@@ -29,8 +29,35 @@ public class SpaceShuttleBehavior : MonoBehaviour
         public UnityEvent onEventTriggered;
     }
 
+    private ShuttleEventActions eventActions;
+
     void Start()
     {
+        //TODO: If another shuttle events need to be added in the future, consider using a ScriptableObject or a more dynamic system
+        eventActions = FindObjectOfType<ShuttleEventActions>();
+        shuttleEvents.Add(new ShuttleEvent
+        {
+            eventName = "Circuitry Damage",
+            triggerChance = 0.3f,
+            onEventTriggered = new UnityEngine.Events.UnityEvent()
+        });
+        shuttleEvents[0].onEventTriggered.AddListener(eventActions.TriggerCircuitryDamage);
+
+        shuttleEvents.Add(new ShuttleEvent
+        {
+            eventName = "Navigation Fix",
+            triggerChance = 0.3f,
+            onEventTriggered = new UnityEngine.Events.UnityEvent()
+        });
+        shuttleEvents[1].onEventTriggered.AddListener(eventActions.TriggerNavigationFix);
+
+        shuttleEvents.Add(new ShuttleEvent
+        {
+            eventName = "Medbay Healing",
+            triggerChance = 0.3f,
+            onEventTriggered = new UnityEngine.Events.UnityEvent()
+        });
+        shuttleEvents[2].onEventTriggered.AddListener(eventActions.TriggerMedbayHealing);
         StartCoroutine(EventLoop());
     }
 
