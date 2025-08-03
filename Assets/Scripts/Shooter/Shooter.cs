@@ -7,7 +7,7 @@ public class Shooter : MonoBehaviour
     public Transform firePoint;
     public float shootCooldown = 0.5f;
     public string bulletTag = "Bullet";
-
+    public LayerMask playerLayer;
     private float nextShootTime;
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class Shooter : MonoBehaviour
             Vector3 rayDirection = (mousePosition - firePoint.position).normalized;
 
             RaycastHit hit;
-            bool didHit = Physics.Raycast(firePoint.position, rayDirection, out hit, 300, -1);
+            bool didHit = Physics.Raycast(firePoint.position, rayDirection, out hit, 300, playerLayer);
             if (didHit)
             {
                 Debug.Log("Hit: " + hit.collider.name + " at " + hit.point);

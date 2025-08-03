@@ -7,6 +7,7 @@ public static class HUDGameEvents
     public static event Action<float> OnShuttleIntegrityChanged;
     public static event Action<float> OnDashCooldownChanged;
     public static event Action<float> OnGunCooldownChanged;
+    public static event Action<float> OnHealthEffectChanged;
 
     public static event Action<bool> OnFuelWarning;
     public static event Action<bool> OnHealthWarning;
@@ -15,6 +16,7 @@ public static class HUDGameEvents
 
     public static void FuelChanged(float value) => OnFuelChanged?.Invoke(value);
     public static void PlayerHealthChanged(float value) => OnPlayerHealthChanged?.Invoke(value);
+    public static void PlayerHealthEffectChanged(float value) => OnHealthEffectChanged?.Invoke(value);
     public static void ShuttleIntegrityChanged(float value) => OnShuttleIntegrityChanged?.Invoke(value);
     public static void DashCooldownChanged(float value) => OnDashCooldownChanged?.Invoke(value);
     public static void GunCooldownChanged(float value) => OnGunCooldownChanged?.Invoke(value);

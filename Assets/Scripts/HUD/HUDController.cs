@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class HudControllerScript : MonoBehaviour
 {
-    public Slider fuelSlider;
-    public Slider healthSlider;
-    public Slider dashMeterSlider;
-    public Slider gunCooldownSlider;
-    public Slider shuttleIntegritySlider;
+    public Image fuelSlider;
+    public Image healthSlider;
+    public Image dashMeterSlider;
+    public Image gunCooldownSlider;
+    public Image shuttleIntegritySlider;
 
     public GameObject fuelWarning;
     public GameObject healthWarning;
@@ -32,27 +32,27 @@ public class HudControllerScript : MonoBehaviour
 
     void UpdateFuel(float value)
     {
-        fuelSlider.value = value;
+        fuelSlider.fillAmount = value;
     }
 
     void UpdateHealth(float value)
     {
-        healthSlider.value = value;
+        healthSlider.fillAmount = value;
     }
 
     void UpdateDash(float value)
     {
-        dashMeterSlider.value = value;
+        dashMeterSlider.fillAmount = value;
     }
 
     void UpdateGunCooldown(float value)
     {
-        gunCooldownSlider.value = value;
+        gunCooldownSlider.fillAmount = value;
     }
 
     void UpdateShuttleIntegrity(float value)
     {
-        shuttleIntegritySlider.value = value;
+        shuttleIntegritySlider.fillAmount = value;
     }
 
     void ShowFuelWarning(bool show)

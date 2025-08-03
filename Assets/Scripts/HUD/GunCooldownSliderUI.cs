@@ -3,9 +3,10 @@ using UnityEngine.UI;
 
 public class GunCooldownSliderUI : MonoBehaviour
 {
-    public Slider gunCooldownSlider;
+    public Image gunCooldownSlider;
     private void OnEnable()
     {
+        gunCooldownSlider = GetComponent<Image>();
         HUDGameEvents.OnGunCooldownChanged += UpdateGunCooldown;
     }
     private void OnDisable()
@@ -14,6 +15,6 @@ public class GunCooldownSliderUI : MonoBehaviour
     }
     private void UpdateGunCooldown(float value)
     {
-        gunCooldownSlider.value = value;
+        gunCooldownSlider.fillAmount = value;
     }
 }

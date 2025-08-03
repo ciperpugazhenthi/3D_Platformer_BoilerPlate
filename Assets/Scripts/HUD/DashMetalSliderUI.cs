@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DashMetalSliderUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Image dashCooldownSlider;
+    private void OnEnable()
     {
-        
+        dashCooldownSlider = GetComponent<Image>();
+        HUDGameEvents.OnDashCooldownChanged += UpdateDashCooldown;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        HUDGameEvents.OnDashCooldownChanged -= UpdateDashCooldown;
+    }
+    private void UpdateDashCooldown(float value)
+    {
+        dashCooldownSlider.fillAmount = value;
     }
 }

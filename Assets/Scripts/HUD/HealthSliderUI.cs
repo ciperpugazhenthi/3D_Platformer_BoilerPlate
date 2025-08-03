@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthSliderUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Image healthBar;
+    public Image healthEffect;
+    private void OnEnable()
     {
-        
+        healthBar = GetComponent<Image>();
+        HUDGameEvents.OnPlayerHealthChanged += UpdateHealthBar;
+        HUDGameEvents.OnHealthEffectChanged += UpdateHealthWarningEffect;
+    }
+    private void OnDisable()
+    {
+        HUDGameEvents.OnPlayerHealthChanged -= UpdateHealthBar;
+        HUDGameEvents.OnHealthEffectChanged -= UpdateHealthWarningEffect;
+    }
+    private void UpdateHealthBar(float value)
+    {
+        healthBar.fillAmount = value;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateHealthWarningEffect(float value)
     {
-        
+        healthEffect.fillAmount = value;
     }
+
 }

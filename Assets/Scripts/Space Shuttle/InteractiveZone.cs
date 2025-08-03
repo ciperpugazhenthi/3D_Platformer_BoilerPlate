@@ -19,8 +19,8 @@ public class InteractiveZone : MonoBehaviour
 
     public float holdDuration = 3f;
 
-    public TextMeshProUGUI promptText;
-    public TextMeshProUGUI completionText;
+    public TMP_Text promptText;
+    public TMP_Text completionText;
 
     public Image progressBar;
 
@@ -52,8 +52,9 @@ public class InteractiveZone : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"player zone check : {playerInZone}");
         if (!playerInZone) return;
-        if (Input.GetKeyDown(interactionKey))
+        if (Input.GetKey(interactionKey))
         {
             StartInteraction();
         }
@@ -119,7 +120,7 @@ public class InteractiveZone : MonoBehaviour
                 eventActions.TriggerCircuitryDamage();
                 break;
             case ZoneType.Navigation:
-                eventActions.TriggerCircuitryDamage();
+                eventActions.TriggerNavigationFix();
                 break;
             case ZoneType.Medbay:
                 eventActions.TriggerMedbayHealing();

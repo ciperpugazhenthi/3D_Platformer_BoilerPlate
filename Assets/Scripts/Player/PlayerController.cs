@@ -35,15 +35,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
     [SerializeField] private float dashFuelCost = 10f;
-    [SerializeField] private bool canDash = true;
-    [SerializeField] private bool isDashing = false;
+    [SerializeField]  private bool canDash = true;
+    [SerializeField]  private bool isDashing = false;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.3f;
-    [SerializeField] private bool isGrounded;
-
+    [SerializeField]  private bool isGrounded;
+    LayerMask interactacbleLayer;
     private Rigidbody rb;
     private bool dashKeyCheck = false, jumpKeyCheck = false;
 
@@ -72,15 +72,15 @@ public class PlayerController : MonoBehaviour
         hInput = Input.GetAxis("Horizontal");
         vInput = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.LeftArrow))
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        else if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
-        else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) ||
+        else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || 
             Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
@@ -92,7 +92,6 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
-
         Vector3 thrustDirection = new Vector3(hInput, vInput, 0f);
         bool isThrusting = thrustDirection.magnitude > 0.01f;
 
