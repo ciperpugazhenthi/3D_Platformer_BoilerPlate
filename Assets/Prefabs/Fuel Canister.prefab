@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 733069781707012289}
   - component: {fileID: 3386341599358934317}
   - component: {fileID: 6644819692686340409}
-  - component: {fileID: 6390275435330960427}
+  - component: {fileID: 6981186032810073215}
   - component: {fileID: 6826940575654451103}
   m_Layer: 0
   m_Name: Fuel Canister
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.26, y: -9.84, z: -0.7186501}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3638995113007260712}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -5677767147063336132, guid: 6497fe92052e9f742a7bc04895224d82, type: 3}
 --- !u!23 &6644819692686340409
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -85,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6390275435330960427
-BoxCollider:
+--- !u!136 &6981186032810073215
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,8 +103,10 @@ BoxCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  serializedVersion: 2
+  m_Radius: 1.06
+  m_Height: 3.3658853
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6826940575654451103
 MonoBehaviour:
@@ -119,3 +121,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuelAmount: 25
+  poolTag: Fuel
