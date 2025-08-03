@@ -7,7 +7,13 @@ public class EnemyItemDamager : EnemyBase
     // Update is called once per frame
     void Update()
     {
+        Movement();
         PerformAttack();
+    }
+
+    void Movement()
+    {
+
     }
 
     protected override void PerformAttack()

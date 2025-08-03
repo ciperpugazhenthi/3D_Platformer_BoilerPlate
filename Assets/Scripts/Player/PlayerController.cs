@@ -23,20 +23,26 @@ public class PlayerController : MonoBehaviour
     public float fuelConsumptionRate = 10f; // per second while thrusting
     public float fuelRechargeRate = 5f;     // per second when grounded
 
+    [Header("Health Settings")]
+    public float MaxHealth = 100f;
+    public float CurrentHealth;
+    public float HealthDeplitionRate = 0.5f;
+    public float HealthGainRate = 5f;
+
     [Header("Dash Settings")]
     [SerializeField] private float dashForce = 500f;
     [SerializeField] private float dashCooldown = 1f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
     [SerializeField] private float dashFuelCost = 10f;
-    [SerializeField]  private bool canDash = true;
-    [SerializeField]  private bool isDashing = false;
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool isDashing = false;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.3f;
-    [SerializeField]  private bool isGrounded;
+    [SerializeField] private bool isGrounded;
 
     private Rigidbody rb;
     private bool dashKeyCheck = false, jumpKeyCheck = false;
@@ -48,6 +54,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Prevents unwanted rotation during collisions
         currentFuel = maxFuel;
+        CurrentHealth = MaxHealth;
     }
 
     private void Update()
@@ -64,6 +71,23 @@ public class PlayerController : MonoBehaviour
 
         hInput = Input.GetAxis("Horizontal");
         vInput = Input.GetAxis("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) ||
+            Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+
+        HUDGameEvents.FuelChanged(currentFuel / maxFuel);
+        HUDGameEvents.PlayerHealthChanged(CurrentHealth / MaxHealth);
     }
     void FixedUpdate()
     {
@@ -93,8 +117,12 @@ public class PlayerController : MonoBehaviour
         if (isThrusting)
         {
             currentFuel -= fuelConsumptionRate * Time.fixedDeltaTime * thrustFactor;
+            CurrentHealth -= HealthDeplitionRate * Time.fixedDeltaTime * thrustFactor;
         }
-
+        else
+        {
+            currentFuel -= (HealthDeplitionRate * 0.4f) * Time.fixedDeltaTime;
+        }
 
         if (rb.velocity.magnitude > maxSpeed)
         {
@@ -125,6 +153,12 @@ public class PlayerController : MonoBehaviour
     {
         currentFuel += amount;
         currentFuel = Mathf.Clamp(currentFuel, 0f, maxFuel);
+    }
+
+    public void RegainOxygen(float amount)
+    {
+        CurrentHealth += amount;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth);
     }
 
     private IEnumerator Dash()
